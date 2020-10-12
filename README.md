@@ -10,6 +10,7 @@ produce MIPS assembly low-level code.
 Readme Language: Greek
 
 Team Members:
+
 George Androutsopoulos
 
 Christoforos Karvelis
