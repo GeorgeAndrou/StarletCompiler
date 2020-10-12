@@ -1,0 +1,1894 @@
+			
+							CODE GENERATION ERROR TESTING 
+
+---> Copy the PROGRAM field and paste it at a file with .stl extension to test it yourself!
+---> Ex. (Running from Linux kernel terminal) $ python3 star_vX.X.X.py example.stl
+======================================================================
+
+======================================================================
+
+TEST 1,
+
+PROGRAM :
+----------------------------------------------------------------------
+program testPassingFatherMainAndFunction
+	declare a, b, c, sum;
+	function f(in a, inout b, inandout c)
+		print a;
+		print b;
+		print c;
+		a := a + 1;
+		b := b + 1;
+		c := c + 1;
+		print a;
+		print b;
+		print c;
+		return a+b+c;
+	endfunction
+	function h(in a, inout b, inandout c)
+		declare w, x, z, sum;
+		function g(in a, inout b, inandout c, in w, inout x, inandout z)
+			print a;
+			print b;
+			print c;
+			print w;
+			print x;
+			print z;
+			a := a + 1;
+			b := b + 1;
+			c := c + 1;
+			w := w + 1;
+			x := x + 1;
+			z := z + 1;
+			return a+b+c+w+(x+z);
+		endfunction
+		w:= 1;
+		x:= 1;
+		z:= 1;
+		sum := g(in a, inout b, inandout c, in w, inout x, inandout z);
+		print a;
+		print b;
+		print c;
+		print w;
+		print x;
+		print z;
+		a := a + 1;
+		b := b + 1;
+		c := c + 1;
+		return sum;
+	endfunction
+	input a;
+	input b;
+	input c;
+	sum := f(in a, inout b, inandout c);
+	print a;
+	print b;
+	print c;
+	print sum;
+	sum := h(in a, inout b, inandout c);
+	print a;
+	print b;
+	print c;
+	print sum;
+endprogram 
+----------------------------------------------------------------------
+
+INPUT : 
+----------------------------------------------------------------------
+1
+2
+3
+----------------------------------------------------------------------
+
+OUTPUT :
+----------------------------------------------------------------------
+1
+2
+3
+2
+3
+4
+1
+3
+4
+9
+1
+3
+4
+1
+1
+1
+1
+4
+5
+1
+2
+2
+1
+5
+6
+17
+-- program is finished running --
+----------------------------------------------------------------------
+
+ASSEMBLY :
+----------------------------------------------------------------------
+Compile it -> 502 lines!
+----------------------------------------------------------------------
+
+
+======================================================================
+
+TEST 2,
+
+PROGRAM :
+----------------------------------------------------------------------
+program testPassingGrandFather
+	function h()
+		declare w, x, z, sum;
+		function g(in a, inout b, inandout c)
+			function f(in x, inout y, inandout z)
+				print x;
+				print y;
+				print z;
+				x := x + 1;
+				y := y + 1;
+				z := z + 1;
+				return x+y+z
+			endfunction
+			print a;
+			print b;
+			print c;
+			sum := f(in a, inout b, inandout c);
+			print sum;
+			a := a + 1;
+			b := b + 1;
+			c := c + 1;
+			print a;
+			print b;
+			print c;
+			return a+b+c;
+		endfunction
+		input w;
+		input x;
+		input z;
+		sum := g(in w, inout x, inandout z);
+		print w;
+		print x;
+		print z;
+		print sum;
+		return -1;
+	endfunction
+	print h();
+endprogram 
+----------------------------------------------------------------------
+
+INPUT : 
+----------------------------------------------------------------------
+1
+2
+3
+----------------------------------------------------------------------
+
+OUTPUT :
+----------------------------------------------------------------------
+1
+2
+3
+1
+2
+3
+9
+2
+4
+5
+1
+4
+5
+11
+-1
+
+-- program is finished running --
+----------------------------------------------------------------------
+
+ASSEMBLY :
+----------------------------------------------------------------------
+Compile it -> 317 lines!
+----------------------------------------------------------------------
+
+======================================================================
+
+TEST 3,
+
+PROGRAM :
+----------------------------------------------------------------------
+program testPassingBrotherMainFunc
+	declare a,b,c;
+	function f()
+		declare x,y,z;
+		function h(in x, inout y, inandout z)
+			function brother0(in q, inout r, inandout s)
+				print q;
+				print r;
+				print s;
+				print a;
+				print b;
+				print c;
+				q := q + 1;
+				r := r + 1;
+				s := s + 1;
+				a := a + 1;
+				b := b + 1;
+				c := c + 1;
+				return (q + r + s + a + b + c);
+			endfunction
+			function brother1()
+				declare sum;
+				sum := brother0(in x, inout y, inandout z);
+				print x;
+				print y;
+				print z;
+				print a;
+				print b;
+				print c;
+				return sum;
+			endfunction
+			return brother1();
+		endfunction
+		x := 1;
+		y := 1;
+		z := 1;
+		return h(in x, inout y, inandout z);
+	endfunction
+	input a;
+	input b;
+	input c;
+	print f();
+	print a;
+	print b;
+	print c;
+endprogram 
+----------------------------------------------------------------------
+
+INPUT : 
+----------------------------------------------------------------------
+1
+2
+3
+----------------------------------------------------------------------
+
+OUTPUT :
+----------------------------------------------------------------------
+1
+1
+1
+1
+2
+3
+1
+2
+2
+2
+3
+4
+15
+2
+3
+4
+----------------------------------------------------------------------
+
+ASSEMBLY :
+----------------------------------------------------------------------
+Compile it -> 357 lines!
+----------------------------------------------------------------------
+
+======================================================================
+
+TEST 4,
+
+PROGRAM :
+----------------------------------------------------------------------
+program CPBrother
+	declare a;
+	function f(inandout w, inandout q)
+		w:=13;
+		q := q+1;
+		return 0;
+	endfunction
+	function h()
+		return f(inandout a, inandout a);
+	endfunction
+	input a;
+	print h();
+	print a
+endprogram
+----------------------------------------------------------------------
+
+INPUT : 
+----------------------------------------------------------------------
+1
+----------------------------------------------------------------------
+
+OUTPUT :
+----------------------------------------------------------------------
+0
+2
+
+-- program is finished running --
+----------------------------------------------------------------------
+
+ASSEMBLY :
+----------------------------------------------------------------------
+.data
+	newline: .asciiz "\n"
+.text
+
+L:
+	j Lmain
+L0:
+	sw $ra, 0($sp)
+L1:
+	li $t1, 13
+	sw $t1, -12($sp)
+L2:
+	lw $t1, -16($sp)
+	li $t2, 1
+	add $t1, $t1, $t2
+	sw $t1, -20($sp)
+L3:
+	lw $t1, -20($sp)
+	sw $t1, -16($sp)
+L4:
+	li $t1, 0
+	lw $t0, -8($sp)
+	sw $t1, 0($t0)
+L5:
+	lw $ra, 0($sp)
+	jr $ra
+L6:
+	sw $ra, 0($sp)
+L7:
+	addi $fp, $sp, 24
+	lw $t0, -12($s0)
+	sw $t0, -12($fp)
+L8:
+	lw $t0, -12($s0)
+	sw $t0, -16($fp)
+L9:
+	addi $t0, $sp, -12
+	sw $t0, -8($fp)
+L10:
+	lw $t0, -4($sp)
+	sw $t0, -4($fp)
+	addi $sp, $sp, 24
+	jal L0
+	move $s1, $sp
+	addi $sp, $sp, -24
+	lw $t1, -12($s1)
+	sw $t1, -12($s0)
+	lw $t1, -16($s1)
+	sw $t1, -12($s0)
+L11:
+	lw $t1, -12($sp)
+	lw $t0, -8($sp)
+	sw $t1, 0($t0)
+L12:
+	lw $ra, 0($sp)
+	jr $ra
+Lmain:
+	addi $sp, $sp, 20
+	move $s0, $sp
+L13:
+L14:
+	li $v0, 5
+	syscall
+	sw $v0, -12($s0)
+L15:
+	addi $fp, $sp, 16
+	addi $t0, $sp, -16
+	sw $t0, -8($fp)
+L16:
+	sw $sp, -4($fp)
+	addi $sp, $sp, 16
+	jal L6
+	addi $sp, $sp, -16
+L17:
+	li $v0, 1
+	lw $t1, -16($s0)
+	move $a0, $t1
+	syscall
+	li $v0, 4
+	la $a0, newline
+	syscall
+L18:
+	li $v0, 1
+	lw $t1, -12($s0)
+	move $a0, $t1
+	syscall
+	li $v0, 4
+	la $a0, newline
+	syscall
+L19:
+	li $v0, 10
+	syscall
+
+
+# KC AG Compilers I CSE
+----------------------------------------------------------------------
+
+
+======================================================================
+
+TEST 5,
+
+PROGRAM :
+----------------------------------------------------------------------
+program CPBrotherNoPass
+	declare a;
+	function f(inandout w, inandout q)
+		w:=13;
+		q := q+1;
+		return 0;
+	endfunction
+	function h()
+		declare a;
+		a := 12;
+		return f(inandout a, inandout a);
+	endfunction
+	input a;
+	print h();
+	print a
+endprogram
+----------------------------------------------------------------------
+
+INPUT : 
+----------------------------------------------------------------------
+1
+----------------------------------------------------------------------
+
+OUTPUT :
+----------------------------------------------------------------------
+0
+1
+
+-- program is finished running --
+----------------------------------------------------------------------
+
+ASSEMBLY :
+----------------------------------------------------------------------
+.data
+	newline: .asciiz "\n"
+.text
+
+L:
+	j Lmain
+L0:
+	sw $ra, 0($sp)
+L1:
+	li $t1, 13
+	sw $t1, -12($sp)
+L2:
+	lw $t1, -16($sp)
+	li $t2, 1
+	add $t1, $t1, $t2
+	sw $t1, -20($sp)
+L3:
+	lw $t1, -20($sp)
+	sw $t1, -16($sp)
+L4:
+	li $t1, 0
+	lw $t0, -8($sp)
+	sw $t1, 0($t0)
+L5:
+	lw $ra, 0($sp)
+	jr $ra
+L6:
+	sw $ra, 0($sp)
+L7:
+	li $t1, 12
+	sw $t1, -12($sp)
+L8:
+	addi $fp, $sp, 24
+	lw $t0, -12($sp)
+	sw $t0, -12($fp)
+L9:
+	lw $t0, -12($sp)
+	sw $t0, -16($fp)
+L10:
+	addi $t0, $sp, -16
+	sw $t0, -8($fp)
+L11:
+	lw $t0, -4($sp)
+	sw $t0, -4($fp)
+	addi $sp, $sp, 24
+	jal L0
+	move $s1, $sp
+	addi $sp, $sp, -24
+	lw $t1, -12($s1)
+	sw $t1, -12($sp)
+	lw $t1, -16($s1)
+	sw $t1, -12($sp)
+L12:
+	lw $t1, -16($sp)
+	lw $t0, -8($sp)
+	sw $t1, 0($t0)
+L13:
+	lw $ra, 0($sp)
+	jr $ra
+Lmain:
+	addi $sp, $sp, 20
+	move $s0, $sp
+L14:
+L15:
+	li $v0, 5
+	syscall
+	sw $v0, -12($s0)
+L16:
+	addi $fp, $sp, 20
+	addi $t0, $sp, -16
+	sw $t0, -8($fp)
+L17:
+	sw $sp, -4($fp)
+	addi $sp, $sp, 20
+	jal L6
+	addi $sp, $sp, -20
+L18:
+	li $v0, 1
+	lw $t1, -16($s0)
+	move $a0, $t1
+	syscall
+	li $v0, 4
+	la $a0, newline
+	syscall
+L19:
+	li $v0, 1
+	lw $t1, -12($s0)
+	move $a0, $t1
+	syscall
+	li $v0, 4
+	la $a0, newline
+	syscall
+L20:
+	li $v0, 10
+	syscall
+
+
+# KC AG Compilers I CSE
+----------------------------------------------------------------------
+
+
+======================================================================
+
+TEST 6,
+
+PROGRAM :
+----------------------------------------------------------------------
+program CPFather
+declare a;
+	function f(inandout a)
+		declare w;
+		function h(inandout a)
+			a:= 13;
+			return 0
+		endfunction
+		w := h(inandout a);
+		print a;
+		a := 33;
+		return 0
+	endfunction
+	input a;
+	print(f(inandout a));
+	print a;
+endprogram
+----------------------------------------------------------------------
+
+INPUT : 
+----------------------------------------------------------------------
+1
+----------------------------------------------------------------------
+
+OUTPUT :
+----------------------------------------------------------------------
+13
+0
+33
+
+-- program is finished running --
+----------------------------------------------------------------------
+
+ASSEMBLY :
+----------------------------------------------------------------------
+.data
+	newline: .asciiz "\n"
+.text
+
+L:
+	j Lmain
+L0:
+	sw $ra, 0($sp)
+L1:
+	li $t1, 13
+	sw $t1, -12($sp)
+L2:
+	li $t1, 0
+	lw $t0, -8($sp)
+	sw $t1, 0($t0)
+L3:
+	lw $ra, 0($sp)
+	jr $ra
+L4:
+	sw $ra, 0($sp)
+L5:
+	addi $fp, $sp, 16
+	lw $t0, -12($sp)
+	sw $t0, -12($fp)
+L6:
+	addi $t0, $sp, -20
+	sw $t0, -8($fp)
+L7:
+	sw $sp, -4($fp)
+	addi $sp, $sp, 16
+	jal L0
+	move $s1, $sp
+	addi $sp, $sp, -16
+	lw $t1, -12($s1)
+	sw $t1, -12($sp)
+L8:
+	lw $t1, -20($sp)
+	sw $t1, -16($sp)
+L9:
+	li $v0, 1
+	lw $t1, -12($sp)
+	move $a0, $t1
+	syscall
+	li $v0, 4
+	la $a0, newline
+	syscall
+L10:
+	li $t1, 33
+	sw $t1, -12($sp)
+L11:
+	li $t1, 0
+	lw $t0, -8($sp)
+	sw $t1, 0($t0)
+L12:
+	lw $ra, 0($sp)
+	jr $ra
+Lmain:
+	addi $sp, $sp, 20
+	move $s0, $sp
+L13:
+L14:
+	li $v0, 5
+	syscall
+	sw $v0, -12($s0)
+L15:
+	addi $fp, $sp, 24
+	lw $t0, -12($s0)
+	sw $t0, -12($fp)
+L16:
+	addi $t0, $sp, -16
+	sw $t0, -8($fp)
+L17:
+	sw $sp, -4($fp)
+	addi $sp, $sp, 24
+	jal L4
+	move $s1, $sp
+	addi $sp, $sp, -24
+	lw $t1, -12($s1)
+	sw $t1, -12($s0)
+L18:
+	li $v0, 1
+	lw $t1, -16($s0)
+	move $a0, $t1
+	syscall
+	li $v0, 4
+	la $a0, newline
+	syscall
+L19:
+	li $v0, 1
+	lw $t1, -12($s0)
+	move $a0, $t1
+	syscall
+	li $v0, 4
+	la $a0, newline
+	syscall
+L20:
+	li $v0, 10
+	syscall
+
+
+# KC AG Compilers I CSE
+----------------------------------------------------------------------
+
+
+======================================================================
+
+TEST 7,
+
+PROGRAM :
+----------------------------------------------------------------------
+program CPFatherSimple
+	declare a;
+	function f()
+		function h(inandout w)
+			w:=13;
+			return 0;
+		endfunction
+		return h(inandout a);
+	endfunction
+	input a;
+	print f();
+	print a
+endprogram
+----------------------------------------------------------------------
+
+INPUT : 
+----------------------------------------------------------------------
+1
+----------------------------------------------------------------------
+
+OUTPUT :
+----------------------------------------------------------------------
+0
+13
+----------------------------------------------------------------------
+
+ASSEMBLY :
+----------------------------------------------------------------------
+.data
+	newline: .asciiz "\n"
+.text
+
+L:
+	j Lmain
+L0:
+	sw $ra, 0($sp)
+L1:
+	li $t1, 13
+	sw $t1, -12($sp)
+L2:
+	li $t1, 0
+	lw $t0, -8($sp)
+	sw $t1, 0($t0)
+L3:
+	lw $ra, 0($sp)
+	jr $ra
+L4:
+	sw $ra, 0($sp)
+L5:
+	addi $fp, $sp, 16
+	lw $t0, -12($s0)
+	sw $t0, -12($fp)
+L6:
+	addi $t0, $sp, -12
+	sw $t0, -8($fp)
+L7:
+	sw $sp, -4($fp)
+	addi $sp, $sp, 16
+	jal L0
+	move $s1, $sp
+	addi $sp, $sp, -16
+	lw $t1, -12($s1)
+	sw $t1, -12($s0)
+L8:
+	lw $t1, -12($sp)
+	lw $t0, -8($sp)
+	sw $t1, 0($t0)
+L9:
+	lw $ra, 0($sp)
+	jr $ra
+Lmain:
+	addi $sp, $sp, 20
+	move $s0, $sp
+L10:
+L11:
+	li $v0, 5
+	syscall
+	sw $v0, -12($s0)
+L12:
+	addi $fp, $sp, 16
+	addi $t0, $sp, -16
+	sw $t0, -8($fp)
+L13:
+	sw $sp, -4($fp)
+	addi $sp, $sp, 16
+	jal L4
+	addi $sp, $sp, -16
+L14:
+	li $v0, 1
+	lw $t1, -16($s0)
+	move $a0, $t1
+	syscall
+	li $v0, 4
+	la $a0, newline
+	syscall
+L15:
+	li $v0, 1
+	lw $t1, -12($s0)
+	move $a0, $t1
+	syscall
+	li $v0, 4
+	la $a0, newline
+	syscall
+L16:
+	li $v0, 10
+	syscall
+
+
+# KC AG Compilers I CSE
+----------------------------------------------------------------------
+
+
+======================================================================
+
+TEST 8,
+
+PROGRAM :
+----------------------------------------------------------------------
+program exams
+	declare a,b;
+	function P1(in x, inout y)
+		declare c,d;
+		function P11(in w, inout z)
+			declare e;
+			function P21(in x)
+				e := x;
+				z := w;
+				e := P21(in a);
+				return (e)
+			endfunction
+			e := z;
+			z := w;
+			e := P21(in c);
+			return (e)
+		endfunction
+		b := 100;
+		c := P11(in b, inout c);
+		y := b+c;
+		return (a)
+	endfunction
+	a := P1(in a, inout b)
+endprogram
+----------------------------------------------------------------------
+
+ASSEMBLY :
+----------------------------------------------------------------------
+.data
+	newline: .asciiz "\n"
+.text
+
+L:
+	j Lmain
+L0:
+	sw $ra, 0($sp)
+L1:
+	lw $t1, -12($sp)
+	lw $t0, -4($sp)
+	addi $t0, $t0, -20
+	sw $t1, 0($t0)
+L2:
+	lw $t0, -4($sp)
+	addi $t0, $t0, -12
+	lw $t1, 0($t0)
+	lw $t0, -4($sp)
+	addi $t0, $t0, -16
+	lw $t0, 0($t0)
+	sw $t1, 0($t0)
+L3:
+	addi $fp, $sp, 20
+	lw $t0, -12($s0)
+	sw $t0, -12($fp)
+L4:
+	addi $t0, $sp, -16
+	sw $t0, -8($fp)
+L5:
+	lw $t0, -4($sp)
+	sw $t0, -4($fp)
+	addi $sp, $sp, 20
+	jal L0
+	addi $sp, $sp, -20
+L6:
+	lw $t1, -16($sp)
+	lw $t0, -4($sp)
+	addi $t0, $t0, -20
+	sw $t1, 0($t0)
+L7:
+	lw $t0, -4($sp)
+	addi $t0, $t0, -20
+	lw $t1, 0($t0)
+	lw $t0, -8($sp)
+	sw $t1, 0($t0)
+L8:
+	lw $ra, 0($sp)
+	jr $ra
+L9:
+	sw $ra, 0($sp)
+L10:
+	lw $t0, -16($sp)
+	lw $t1, 0($t0)
+	sw $t1, -20($sp)
+L11:
+	lw $t1, -12($sp)
+	lw $t0, -16($sp)
+	sw $t1, 0($t0)
+L12:
+	addi $fp, $sp, 20
+	lw $t0, -4($sp)
+	addi $t0, $t0, -20
+	lw $t0, 0($t0)
+	sw $t0, -12($fp)
+L13:
+	addi $t0, $sp, -24
+	sw $t0, -8($fp)
+L14:
+	sw $sp, -4($fp)
+	addi $sp, $sp, 20
+	jal L0
+	addi $sp, $sp, -20
+L15:
+	lw $t1, -24($sp)
+	sw $t1, -20($sp)
+L16:
+	lw $t1, -20($sp)
+	lw $t0, -8($sp)
+	sw $t1, 0($t0)
+L17:
+	lw $ra, 0($sp)
+	jr $ra
+L18:
+	sw $ra, 0($sp)
+L19:
+	li $t1, 100
+	sw $t1, -16($s0)
+L20:
+	addi $fp, $sp, 28
+	lw $t0, -16($s0)
+	sw $t0, -12($fp)
+L21:
+	addi $t0, $sp, -20
+	sw $t0, -16($fp)
+L22:
+	addi $t0, $sp, -28
+	sw $t0, -8($fp)
+L23:
+	sw $sp, -4($fp)
+	addi $sp, $sp, 28
+	jal L9
+	addi $sp, $sp, -28
+L24:
+	lw $t1, -28($sp)
+	sw $t1, -20($sp)
+L25:
+	lw $t1, -16($s0)
+	lw $t2, -20($sp)
+	add $t1, $t1, $t2
+	sw $t1, -32($sp)
+L26:
+	lw $t1, -32($sp)
+	lw $t0, -16($sp)
+	sw $t1, 0($t0)
+L27:
+	lw $t1, -12($s0)
+	lw $t0, -8($sp)
+	sw $t1, 0($t0)
+L28:
+	lw $ra, 0($sp)
+	jr $ra
+Lmain:
+	addi $sp, $sp, 24
+	move $s0, $sp
+L29:
+L30:
+	addi $fp, $sp, 36
+	lw $t0, -12($s0)
+	sw $t0, -12($fp)
+L31:
+	addi $t0, $s0, -16
+	sw $t0, -16($fp)
+L32:
+	addi $t0, $sp, -20
+	sw $t0, -8($fp)
+L33:
+	sw $sp, -4($fp)
+	addi $sp, $sp, 36
+	jal L18
+	addi $sp, $sp, -36
+L34:
+	lw $t1, -20($s0)
+	sw $t1, -12($s0)
+L35:
+	li $v0, 10
+	syscall
+
+
+# KC AG Compilers I CSE
+----------------------------------------------------------------------
+
+
+======================================================================
+
+TEST 9,
+
+PROGRAM :
+----------------------------------------------------------------------
+program factorial
+	declare n;
+	function fact(in n)
+		if (n = 0) then
+			return 1;
+		else
+			return n * fact(in (n-1));
+		endif
+	endfunction
+	input n;
+	print(fact(in n));
+endprogram
+
+/*
+int factorial(int n) {
+
+   if(n == 0) {
+      return 1;
+   } else {
+      return n * factorial(n-1);
+   }
+}
+*/
+----------------------------------------------------------------------
+
+INPUT : 
+----------------------------------------------------------------------
+4
+----------------------------------------------------------------------
+
+OUTPUT :
+----------------------------------------------------------------------
+24
+----------------------------------------------------------------------
+
+ASSEMBLY :
+----------------------------------------------------------------------
+.data
+	newline: .asciiz "\n"
+.text
+
+L:
+	j Lmain
+L0:
+	sw $ra, 0($sp)
+L1:
+	lw $t1, -12($sp)
+	li $t2, 0
+	beq $t1, $t2, L3
+L2:
+	j L5
+L3:
+	li $t1, 1
+	lw $t0, -8($sp)
+	sw $t1, 0($t0)
+L4:
+	j L11
+L5:
+	lw $t1, -12($sp)
+	li $t2, 1
+	sub $t1, $t1, $t2
+	sw $t1, -16($sp)
+L6:
+	addi $fp, $sp, 28
+	lw $t0, -16($sp)
+	sw $t0, -12($fp)
+L7:
+	addi $t0, $sp, -20
+	sw $t0, -8($fp)
+L8:
+	lw $t0, -4($sp)
+	sw $t0, -4($fp)
+	addi $sp, $sp, 28
+	jal L0
+	addi $sp, $sp, -28
+L9:
+	lw $t1, -12($sp)
+	lw $t2, -20($sp)
+	mul $t1, $t1, $t2
+	sw $t1, -24($sp)
+L10:
+	lw $t1, -24($sp)
+	lw $t0, -8($sp)
+	sw $t1, 0($t0)
+L11:
+	lw $ra, 0($sp)
+	jr $ra
+Lmain:
+	addi $sp, $sp, 20
+	move $s0, $sp
+L12:
+L13:
+	li $v0, 5
+	syscall
+	sw $v0, -12($s0)
+L14:
+	addi $fp, $sp, 28
+	lw $t0, -12($s0)
+	sw $t0, -12($fp)
+L15:
+	addi $t0, $sp, -16
+	sw $t0, -8($fp)
+L16:
+	sw $sp, -4($fp)
+	addi $sp, $sp, 28
+	jal L0
+	addi $sp, $sp, -28
+L17:
+	li $v0, 1
+	lw $t1, -16($s0)
+	move $a0, $t1
+	syscall
+	li $v0, 4
+	la $a0, newline
+	syscall
+L18:
+	li $v0, 10
+	syscall
+
+
+# KC AG Compilers I CSE
+----------------------------------------------------------------------
+
+
+======================================================================
+
+TEST 10,
+
+PROGRAM :
+----------------------------------------------------------------------
+program fibonacci
+	declare n;
+	function fib(in n)
+		if (n <= 1) then
+			return n;
+		else
+			return (fib(in (n-1)) + fib(in (n-2)));
+		endif
+	endfunction
+	input n;
+	print fib(in n);
+endprogram
+----------------------------------------------------------------------
+
+INPUT : 
+----------------------------------------------------------------------
+20
+----------------------------------------------------------------------
+
+OUTPUT :
+----------------------------------------------------------------------
+6765
+----------------------------------------------------------------------
+
+ASSEMBLY :
+----------------------------------------------------------------------
+.data
+	newline: .asciiz "\n"
+.text
+
+L:
+	j Lmain
+L0:
+	sw $ra, 0($sp)
+L1:
+	lw $t1, -12($sp)
+	li $t2, 1
+	ble $t1, $t2, L3
+L2:
+	j L5
+L3:
+	lw $t1, -12($sp)
+	lw $t0, -8($sp)
+	sw $t1, 0($t0)
+L4:
+	j L15
+L5:
+	lw $t1, -12($sp)
+	li $t2, 1
+	sub $t1, $t1, $t2
+	sw $t1, -16($sp)
+L6:
+	addi $fp, $sp, 36
+	lw $t0, -16($sp)
+	sw $t0, -12($fp)
+L7:
+	addi $t0, $sp, -20
+	sw $t0, -8($fp)
+L8:
+	lw $t0, -4($sp)
+	sw $t0, -4($fp)
+	addi $sp, $sp, 36
+	jal L0
+	addi $sp, $sp, -36
+L9:
+	lw $t1, -12($sp)
+	li $t2, 2
+	sub $t1, $t1, $t2
+	sw $t1, -24($sp)
+L10:
+	addi $fp, $sp, 36
+	lw $t0, -24($sp)
+	sw $t0, -12($fp)
+L11:
+	addi $t0, $sp, -28
+	sw $t0, -8($fp)
+L12:
+	lw $t0, -4($sp)
+	sw $t0, -4($fp)
+	addi $sp, $sp, 36
+	jal L0
+	addi $sp, $sp, -36
+L13:
+	lw $t1, -20($sp)
+	lw $t2, -28($sp)
+	add $t1, $t1, $t2
+	sw $t1, -32($sp)
+L14:
+	lw $t1, -32($sp)
+	lw $t0, -8($sp)
+	sw $t1, 0($t0)
+L15:
+	lw $ra, 0($sp)
+	jr $ra
+Lmain:
+	addi $sp, $sp, 20
+	move $s0, $sp
+L16:
+L17:
+	li $v0, 5
+	syscall
+	sw $v0, -12($s0)
+L18:
+	addi $fp, $sp, 36
+	lw $t0, -12($s0)
+	sw $t0, -12($fp)
+L19:
+	addi $t0, $sp, -16
+	sw $t0, -8($fp)
+L20:
+	sw $sp, -4($fp)
+	addi $sp, $sp, 36
+	jal L0
+	addi $sp, $sp, -36
+L21:
+	li $v0, 1
+	lw $t1, -16($s0)
+	move $a0, $t1
+	syscall
+	li $v0, 4
+	la $a0, newline
+	syscall
+L22:
+	li $v0, 10
+	syscall
+
+
+# KC AG Compilers I CSE
+----------------------------------------------------------------------
+
+
+======================================================================
+
+TEST 11,
+
+PROGRAM :
+----------------------------------------------------------------------
+program example1
+	declare d,i,g,f;
+
+
+	function two (in g)
+		function three (in g, inout x, inandout m)
+			declare k, j;
+				k:=g;
+				j:=g;
+				dowhile
+					if (k>i) then
+						k:=k-1
+					endif;
+					j:=j*k;
+					k:=k+g
+				enddowhile (k<1);
+				m:=j;
+				return m+1;
+				x:=7
+		endfunction
+ 		i:=three (in i+2, inout d, inandout f);
+ 		return 0
+	endfunction
+
+ 	function one (in g)
+		g:=two(in g);
+		return 0
+	endfunction
+	
+	i:=5;
+	g:=1;
+	g:=one(in g)
+endprogram
+----------------------------------------------------------------------
+
+ASSEMBLY :
+----------------------------------------------------------------------
+.data
+	newline: .asciiz "\n"
+.text
+
+L:
+	j Lmain
+L0:
+	sw $ra, 0($sp)
+L1:
+	lw $t1, -12($sp)
+	sw $t1, -24($sp)
+L2:
+	lw $t1, -12($sp)
+	sw $t1, -28($sp)
+L3:
+	lw $t1, -24($sp)
+	lw $t2, -16($s0)
+	bgt $t1, $t2, L5
+L4:
+	j L8
+L5:
+	lw $t1, -24($sp)
+	li $t2, 1
+	sub $t1, $t1, $t2
+	sw $t1, -32($sp)
+L6:
+	lw $t1, -32($sp)
+	sw $t1, -24($sp)
+L7:
+	j L8
+L8:
+	lw $t1, -28($sp)
+	lw $t2, -24($sp)
+	mul $t1, $t1, $t2
+	sw $t1, -36($sp)
+L9:
+	lw $t1, -36($sp)
+	sw $t1, -28($sp)
+L10:
+	lw $t1, -24($sp)
+	lw $t2, -12($sp)
+	add $t1, $t1, $t2
+	sw $t1, -40($sp)
+L11:
+	lw $t1, -40($sp)
+	sw $t1, -24($sp)
+L12:
+	lw $t1, -24($sp)
+	li $t2, 1
+	blt $t1, $t2, L3
+L13:
+	j L14
+L14:
+	lw $t1, -28($sp)
+	sw $t1, -20($sp)
+L15:
+	lw $t1, -20($sp)
+	li $t2, 1
+	add $t1, $t1, $t2
+	sw $t1, -44($sp)
+L16:
+	lw $t1, -44($sp)
+	lw $t0, -8($sp)
+	sw $t1, 0($t0)
+L17:
+	li $t1, 7
+	lw $t0, -16($sp)
+	sw $t1, 0($t0)
+L18:
+	lw $ra, 0($sp)
+	jr $ra
+L19:
+	sw $ra, 0($sp)
+L20:
+	lw $t1, -16($s0)
+	li $t2, 2
+	add $t1, $t1, $t2
+	sw $t1, -16($sp)
+L21:
+	addi $fp, $sp, 48
+	lw $t0, -16($sp)
+	sw $t0, -12($fp)
+L22:
+	addi $t0, $s0, -12
+	sw $t0, -16($fp)
+L23:
+	lw $t0, -24($s0)
+	sw $t0, -20($fp)
+L24:
+	addi $t0, $sp, -20
+	sw $t0, -8($fp)
+L25:
+	sw $sp, -4($fp)
+	addi $sp, $sp, 48
+	jal L0
+	move $s1, $sp
+	addi $sp, $sp, -48
+	lw $t1, -20($s1)
+	sw $t1, -24($s0)
+L26:
+	lw $t1, -20($sp)
+	sw $t1, -16($s0)
+L27:
+	li $t1, 0
+	lw $t0, -8($sp)
+	sw $t1, 0($t0)
+L28:
+	lw $ra, 0($sp)
+	jr $ra
+L29:
+	sw $ra, 0($sp)
+L30:
+	addi $fp, $sp, 24
+	lw $t0, -12($sp)
+	sw $t0, -12($fp)
+L31:
+	addi $t0, $sp, -16
+	sw $t0, -8($fp)
+L32:
+	lw $t0, -4($sp)
+	sw $t0, -4($fp)
+	addi $sp, $sp, 24
+	jal L19
+	addi $sp, $sp, -24
+L33:
+	lw $t1, -16($sp)
+	sw $t1, -12($sp)
+L34:
+	li $t1, 0
+	lw $t0, -8($sp)
+	sw $t1, 0($t0)
+L35:
+	lw $ra, 0($sp)
+	jr $ra
+Lmain:
+	addi $sp, $sp, 32
+	move $s0, $sp
+L36:
+L37:
+	li $t1, 5
+	sw $t1, -16($s0)
+L38:
+	li $t1, 1
+	sw $t1, -20($s0)
+L39:
+	addi $fp, $sp, 20
+	lw $t0, -20($s0)
+	sw $t0, -12($fp)
+L40:
+	addi $t0, $sp, -28
+	sw $t0, -8($fp)
+L41:
+	sw $sp, -4($fp)
+	addi $sp, $sp, 20
+	jal L29
+	addi $sp, $sp, -20
+L42:
+	lw $t1, -28($s0)
+	sw $t1, -20($s0)
+L43:
+	li $v0, 10
+	syscall
+
+
+# KC AG Compilers I CSE
+----------------------------------------------------------------------
+
+
+======================================================================
+
+TEST 12,
+
+PROGRAM :
+----------------------------------------------------------------------
+program example2
+	declare x,y,z;
+ 
+
+ 	function p1(in x, inout z, inout v)
+ 		declare w;
+ 	
+
+ 		function p2(inout z)
+ 			declare q;
+ 	
+	 		function p3(inout a, inout b)
+	 			declare k;
+ 				if (v<>0) then
+ 					v:=z+b;
+ 					a:=1
+ 				else
+ 					a:=v/b
+ 				endif;
+ 				k:=x;
+ 				return 0
+ 			endfunction
+		
+			q:=y+w;
+			z:=q*x;
+			v:= p3(inout q, inout v);
+			return 0
+ 		endfunction
+ 	
+	 	if (x<y) then
+			w:=x+y
+	 	else
+			w:=x*y
+	 	endif;
+	 	z:= p2(inout z);
+	 	return 0;
+ 	endfunction
+
+	 x:=1;
+	 y:=2;
+	 z:= p1(in x+y, inout z, inout y)
+endprogram
+----------------------------------------------------------------------
+
+ASSEMBLY :
+----------------------------------------------------------------------
+.data
+	newline: .asciiz "\n"
+.text
+
+L:
+	j Lmain
+L0:
+	sw $ra, 0($sp)
+L1:
+	lw $t0, -4($sp)
+	lw $t0, -4($t0)
+	addi $t0, $t0, -20
+	lw $t0, 0($t0)
+	lw $t1, 0($t0)
+	li $t2, 0
+	bne $t1, $t2, L3
+L2:
+	j L7
+L3:
+	lw $t0, -4($sp)
+	addi $t0, $t0, -12
+	lw $t0, 0($t0)
+	lw $t1, 0($t0)
+	lw $t0, -16($sp)
+	lw $t2, 0($t0)
+	add $t1, $t1, $t2
+	sw $t1, -24($sp)
+L4:
+	lw $t1, -24($sp)
+	lw $t0, -4($sp)
+	lw $t0, -4($t0)
+	addi $t0, $t0, -20
+	lw $t0, 0($t0)
+	sw $t1, 0($t0)
+L5:
+	li $t1, 1
+	lw $t0, -12($sp)
+	sw $t1, 0($t0)
+L6:
+	j L9
+L7:
+	lw $t0, -4($sp)
+	lw $t0, -4($t0)
+	addi $t0, $t0, -20
+	lw $t0, 0($t0)
+	lw $t1, 0($t0)
+	lw $t0, -16($sp)
+	lw $t2, 0($t0)
+	div $t1, $t1, $t2
+	sw $t1, -28($sp)
+L8:
+	lw $t1, -28($sp)
+	lw $t0, -12($sp)
+	sw $t1, 0($t0)
+L9:
+	lw $t0, -4($sp)
+	lw $t0, -4($t0)
+	addi $t0, $t0, -12
+	lw $t1, 0($t0)
+	sw $t1, -20($sp)
+L10:
+	li $t1, 0
+	lw $t0, -8($sp)
+	sw $t1, 0($t0)
+L11:
+	lw $ra, 0($sp)
+	jr $ra
+L12:
+	sw $ra, 0($sp)
+L13:
+	lw $t1, -16($s0)
+	lw $t0, -4($sp)
+	addi $t0, $t0, -24
+	lw $t2, 0($t0)
+	add $t1, $t1, $t2
+	sw $t1, -20($sp)
+L14:
+	lw $t1, -20($sp)
+	sw $t1, -16($sp)
+L15:
+	lw $t1, -16($sp)
+	lw $t0, -4($sp)
+	addi $t0, $t0, -12
+	lw $t2, 0($t0)
+	mul $t1, $t1, $t2
+	sw $t1, -24($sp)
+L16:
+	lw $t1, -24($sp)
+	lw $t0, -12($sp)
+	sw $t1, 0($t0)
+L17:
+	addi $fp, $sp, 32
+	addi $t0, $sp, -16
+	sw $t0, -12($fp)
+L18:
+	lw $t0, -4($sp)
+	addi $t0, $t0, -20
+	lw $t0, 0($t0)
+	sw $t0, -16($fp)
+L19:
+	addi $t0, $sp, -28
+	sw $t0, -8($fp)
+L20:
+	sw $sp, -4($fp)
+	addi $sp, $sp, 32
+	jal L0
+	addi $sp, $sp, -32
+L21:
+	lw $t1, -28($sp)
+	lw $t0, -4($sp)
+	addi $t0, $t0, -20
+	lw $t0, 0($t0)
+	sw $t1, 0($t0)
+L22:
+	li $t1, 0
+	lw $t0, -8($sp)
+	sw $t1, 0($t0)
+L23:
+	lw $ra, 0($sp)
+	jr $ra
+L24:
+	sw $ra, 0($sp)
+L25:
+	lw $t1, -12($sp)
+	lw $t2, -16($s0)
+	blt $t1, $t2, L27
+L26:
+	j L30
+L27:
+	lw $t1, -12($sp)
+	lw $t2, -16($s0)
+	add $t1, $t1, $t2
+	sw $t1, -28($sp)
+L28:
+	lw $t1, -28($sp)
+	sw $t1, -24($sp)
+L29:
+	j L32
+L30:
+	lw $t1, -12($sp)
+	lw $t2, -16($s0)
+	mul $t1, $t1, $t2
+	sw $t1, -32($sp)
+L31:
+	lw $t1, -32($sp)
+	sw $t1, -24($sp)
+L32:
+	addi $fp, $sp, 32
+	lw $t0, -16($sp)
+	sw $t0, -12($fp)
+L33:
+	addi $t0, $sp, -36
+	sw $t0, -8($fp)
+L34:
+	sw $sp, -4($fp)
+	addi $sp, $sp, 32
+	jal L12
+	addi $sp, $sp, -32
+L35:
+	lw $t1, -36($sp)
+	lw $t0, -16($sp)
+	sw $t1, 0($t0)
+L36:
+	li $t1, 0
+	lw $t0, -8($sp)
+	sw $t1, 0($t0)
+L37:
+	lw $ra, 0($sp)
+	jr $ra
+Lmain:
+	addi $sp, $sp, 32
+	move $s0, $sp
+L38:
+L39:
+	li $t1, 1
+	sw $t1, -12($s0)
+L40:
+	li $t1, 2
+	sw $t1, -16($s0)
+L41:
+	lw $t1, -12($s0)
+	lw $t2, -16($s0)
+	add $t1, $t1, $t2
+	sw $t1, -24($s0)
+L42:
+	addi $fp, $sp, 40
+	lw $t0, -24($s0)
+	sw $t0, -12($fp)
+L43:
+	addi $t0, $s0, -20
+	sw $t0, -16($fp)
+L44:
+	addi $t0, $s0, -16
+	sw $t0, -20($fp)
+L45:
+	addi $t0, $sp, -28
+	sw $t0, -8($fp)
+L46:
+	sw $sp, -4($fp)
+	addi $sp, $sp, 40
+	jal L24
+	addi $sp, $sp, -40
+L47:
+	lw $t1, -28($s0)
+	sw $t1, -20($s0)
+L48:
+	li $v0, 10
+	syscall
+
+
+# KC AG Compilers I CSE
+----------------------------------------------------------------------
+
+
+======================================================================
+
+TEST 13,
+
+PROGRAM :
+----------------------------------------------------------------------
+program example3
+	declare a,b,c,d,e,x,y,px,py,temp;
+	loop
+
+		if (not [a<c and b<d]) then
+			exit
+		endif;
+
+		if (a=e) then
+			c:=c+e
+		else
+			loop
+				if (not [a<=d]) then
+					exit
+				endif;
+				a:=a+b
+			endloop
+		endif
+	endloop;
+	temp:=px;
+	x:=1;
+	y:=2
+endprogram
+----------------------------------------------------------------------
+
+ASSEMBLY :
+----------------------------------------------------------------------
+.data
+	newline: .asciiz "\n"
+.text
+
+L:
+	j Lmain
+Lmain:
+	addi $sp, $sp, 60
+	move $s0, $sp
+L0:
+L1:
+	lw $t1, -12($s0)
+	lw $t2, -20($s0)
+	blt $t1, $t2, L3
+L2:
+	j L5
+L3:
+	lw $t1, -16($s0)
+	lw $t2, -24($s0)
+	blt $t1, $t2, L7
+L4:
+	j L5
+L5:
+	j L20
+L6:
+	j L7
+L7:
+	lw $t1, -12($s0)
+	lw $t2, -28($s0)
+	beq $t1, $t2, L9
+L8:
+	j L12
+L9:
+	lw $t1, -20($s0)
+	lw $t2, -28($s0)
+	add $t1, $t1, $t2
+	sw $t1, -52($s0)
+L10:
+	lw $t1, -52($s0)
+	sw $t1, -20($s0)
+L11:
+	j L19
+L12:
+	lw $t1, -12($s0)
+	lw $t2, -24($s0)
+	ble $t1, $t2, L16
+L13:
+	j L14
+L14:
+	j L19
+L15:
+	j L16
+L16:
+	lw $t1, -12($s0)
+	lw $t2, -16($s0)
+	add $t1, $t1, $t2
+	sw $t1, -56($s0)
+L17:
+	lw $t1, -56($s0)
+	sw $t1, -12($s0)
+L18:
+	j L12
+L19:
+	j L1
+L20:
+	lw $t1, -40($s0)
+	sw $t1, -48($s0)
+L21:
+	li $t1, 1
+	sw $t1, -32($s0)
+L22:
+	li $t1, 2
+	sw $t1, -36($s0)
+L23:
+	li $v0, 10
+	syscall
+
+
+# KC AG Compilers I CSE
+----------------------------------------------------------------------
+
+
+======================================================================
+
+TEST 14,
+
+PROGRAM :
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+
+INPUT : 
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+
+OUTPUT :
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+
+ASSEMBLY :
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+
+
+======================================================================
+
